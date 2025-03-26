@@ -69,13 +69,19 @@
       <div class="message bot">Hello! How is your day going? 😊</div>
     </div>
     <div class="input-area">
-      <input type="text" id="userInput" placeholder="Type your answer..." />
+      <input type="text" id="userInput" placeholder="Type your answer..." onkeypress="handleKeyPress(event)" />
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
 
   <script>
     let state = "start";
+
+    function handleKeyPress(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    }
 
     function sendMessage() {
       const input = document.getElementById("userInput");
@@ -89,15 +95,15 @@
       let response = "";
 
       if (state === "start") {
-        if (lower.includes("good") || lower.includes("fine")) {
-          response = "I'm glad to hear that! What made it a good day?";
-        } else if (
+        if (
           lower.includes("bad") ||
           lower.includes("not good") ||
           lower.includes("tired") ||
           lower.includes("sad")
         ) {
           response = "I'm sorry to hear that. Want to tell me more about it?";
+        } else if (lower.includes("good") || lower.includes("fine")) {
+          response = "I'm glad to hear that! What made it a good day?";
         } else if (lower.includes("okay") || lower.includes("so-so")) {
           response = "An okay day is still a day! Want to talk about it more?";
         } else {
