@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,6 +75,8 @@
   </div>
 
   <script>
+    let state = "start";
+
     function sendMessage() {
       const input = document.getElementById("userInput");
       const text = input.value.trim();
@@ -87,20 +88,27 @@
       const lower = text.toLowerCase();
       let response = "";
 
-      if (lower.includes("good") || lower.includes("fine")) {
-        response = "I'm glad to hear that! What made it a good day?";
-      } else if (
-        lower.includes("bad") ||
-        lower.includes("not good") ||
-        lower.includes("tired") ||
-        lower.includes("sad")
-      ) {
-        response = "I'm sorry to hear that. Want to tell me more about it?";
-      } else if (lower.includes("okay") || lower.includes("so-so")) {
-        response = "An okay day is still a day! Want to talk about it more?";
+      if (state === "start") {
+        if (lower.includes("good") || lower.includes("fine")) {
+          response = "I'm glad to hear that! What made it a good day?";
+        } else if (
+          lower.includes("bad") ||
+          lower.includes("not good") ||
+          lower.includes("tired") ||
+          lower.includes("sad")
+        ) {
+          response = "I'm sorry to hear that. Want to tell me more about it?";
+        } else if (lower.includes("okay") || lower.includes("so-so")) {
+          response = "An okay day is still a day! Want to talk about it more?";
+        } else {
+          response = "Thanks for sharing. Do you want to learn some words to describe your day?";
+        }
+        state = "followup";
+      } else if (state === "followup") {
+        response = "Thanks for telling me more. Do you want to try another topic like asking for help or directions?";
+        state = "next";
       } else {
-        response =
-          "Thank you for sharing! Do you want to learn how to say more about your day?";
+        response = "Let me know what you'd like to talk about next! I'm here to help. 😊";
       }
 
       setTimeout(() => addMessage(response, "bot"), 600);
