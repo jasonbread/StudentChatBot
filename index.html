@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .chat-container {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 400px;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      max-height: 300px;
+    }
+    .message {
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      border-radius: 1rem;
+    }
+    .bot {
+      background-color: #dbeafe;
+      text-align: left;
+    }
+    .user {
+      background-color: #e5e7eb;
+      text-align: right;
+    }
+    .input-area {
+      display: flex;
+      gap: 0.5rem;
+    }
+    input {
+      flex: 1;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      border: none;
+      background-color: #3b82f6;
+      color: white;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="messages" id="chat">
+      <div class="message bot">Hello! How is your day going? 😊</div>
+    </div>
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="Type your answer..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage(text, "user");
+      input.value = "";
+
+      const lower = text.toLowerCase();
+      let response = "";
+
+      if (lower.includes("good") || lower.includes("fine")) {
+        response = "I'm glad to hear that! What made it a good day?";
+      } else if (
+        lower.includes("bad") ||
+        lower.includes("not good") ||
+        lower.includes("tired") ||
+        lower.includes("sad")
+      ) {
+        response = "I'm sorry to hear that. Want to tell me more about it?";
+      } else if (lower.includes("okay") || lower.includes("so-so")) {
+        response = "An okay day is still a day! Want to talk about it more?";
+      } else {
+        response =
+          "Thank you for sharing! Do you want to learn how to say more about your day?";
+      }
+
+      setTimeout(() => addMessage(response, "bot"), 600);
+    }
+
+    function addMessage(text, sender) {
+      const chat = document.getElementById("chat");
+      const msg = document.createElement("div");
+      msg.className = `message ${sender}`;
+      msg.innerText = text;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+  </script>
+</body>
+</html>
